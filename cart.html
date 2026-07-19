@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShopSlipper — Your Cart</title>
+    <title>Your Cart — ShopSlipper</title>
     <style>
         :root {
             --bg-color: #f8f9fa;
@@ -18,150 +18,222 @@
 
         body { 
             font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
-            background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0;
+            background-color: var(--bg-color); 
+            color: var(--text-main);
+            margin: 0; padding: 0;
         }
 
-        nav {
-            background-color: var(--surface-color); border-bottom: 1px solid var(--border-color);
-            padding: 15px 30px; display: flex; justify-content: space-between; align-items: center;
-            position: sticky; top: 0; z-index: 100;
+        navbar {
+            background-color: var(--surface-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        nav h1 { margin: 0; font-size: 22px; text-transform: uppercase; font-weight: 800; letter-spacing: -0.5px; }
-        nav a { color: var(--text-main); text-decoration: none; font-weight: 600; font-size: 14px; }
-
-        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
-        .section-title { font-size: 24px; font-weight: 700; margin-bottom: 25px; }
-
-        .cart-card { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border-color); }
-        .cart-item:last-child { border-bottom: none; }
-
-        .item-details h4 { margin: 0 0 4px 0; font-size: 16px; font-weight: 600; }
-        .item-details p { margin: 0; font-size: 13px; color: var(--text-muted); }
-        .item-price { font-weight: 700; font-size: 16px; }
-
-        .cart-summary { margin-top: 24px; padding-top: 24px; border-top: 2px solid var(--border-color); display: flex; flex-direction: column; gap: 8px; }
-        .summary-row { display: flex; justify-content: space-between; align-items: center; }
+        navbar h1 { margin: 0; font-size: 22px; text-transform: uppercase; font-weight: 800; }
         
-        .total-label { font-size: 18px; font-weight: 600; }
-        .total-price { font-size: 22px; font-weight: 800; }
-        .discount-applied { font-size: 14px; color: #10b981; font-weight: 600; text-align: right; }
+        .back-btn {
+            color: var(--text-main); text-decoration: none; font-weight: 600; font-size: 14px;
+        }
 
-        .btn-container { margin-top: 24px; display: flex; gap: 12px; }
-        button { padding: 14px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 15px; width: 100%; }
-        .btn-checkout { background: var(--accent-color); color: white; }
-        .btn-clear { background: transparent; color: #ef4444; border: 1px solid #ef4444; }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .card { 
+            background: var(--surface-color); padding: 30px; 
+            border-radius: var(--radius); border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        .section-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;}
+
+        .cart-list { list-style: none; padding: 0; margin: 0 0 20px 0; }
         
-        .empty-message { text-align: center; padding: 40px 0; color: var(--text-muted); font-size: 16px; }
+        .cart-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 14px 0; border-bottom: 1px dashed var(--border-color);
+            font-size: 14px;
+        }
+
+        .remove-btn {
+            background: #fee2e2; color: #ef4444;
+            border: none; padding: 4px 8px; font-size: 12px;
+            border-radius: 4px; cursor: pointer; font-weight: bold;
+        }
+        .remove-btn:hover { background: #fca5a5; }
+
+        .cart-total-box {
+            display: flex; flex-direction: column; gap: 6px;
+            margin: 20px 0; padding-top: 15px; border-top: 2px solid var(--text-main);
+        }
+
+        .total-row {
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .discount-applied { font-size: 13px; color: #10b981; font-weight: 600; text-align: right; margin-top: 2px;}
+
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 6px; text-transform: uppercase;}
+        
+        input { 
+            width: 100%; padding: 12px; border: 1px solid var(--border-color); 
+            border-radius: 8px; box-sizing: border-box; font-size: 14px; background: #fafafa;
+        }
+        input:focus { outline: none; border-color: var(--accent-color); background: #fff;}
+
+        button.order-submit { 
+            background: var(--accent-color); color: white; 
+            padding: 14px; border: none; border-radius: 8px; 
+            cursor: pointer; font-weight: 600; font-size: 15px; width: 100%; margin-top: 15px;
+        }
+        
+        .cod-badge {
+            background: #f0fdf4; color: #166534; padding: 8px 12px;
+            border-radius: 6px; font-size: 12px; font-weight: 500;
+            margin-bottom: 20px; display: inline-block; border: 1px solid #bbf7d0;
+        }
     </style>
 </head>
 <body>
 
-    <nav>
+    <navbar>
         <h1>ShopSlipper</h1>
-        <a href="index.html">← Back to Shop</a>
-    </nav>
+        <a href="index.html" class="back-btn">← Continue Shopping</a>
+    </navbar>
     
     <div class="container">
-        <div class="section-title">Shopping Cart</div>
-        
-        <div class="cart-card">
-            <div id="cart-items-list"></div>
+        <div class="card">
+            <div class="section-title">Review Your Items</div>
+            <ul id="cart-items" class="cart-list"></ul>
             
-            <div class="cart-summary">
-                <div class="summary-row" id="subtotal-row" style="display: none; color: var(--text-muted);">
-                    <span>Subtotal:</span>
-                    <span id="cart-subtotal">Rs 0</span>
+            <div class="cart-total-box">
+                <div class="total-row" id="subtotal-row" style="display: none; color: var(--text-muted); font-size: 14px; margin-bottom: 4px;">
+                    <span>Subtotal</span>
+                    <span>Rs <span id="cart-subtotal">0</span></span>
                 </div>
-                <div class="summary-row">
-                    <div class="total-label">Total Amount:</div>
-                    <div class="total-price" id="cart-total-amount">Rs 0</div>
+                <div class="total-row">
+                    <h3 style="margin:0;">Total Amount</h3>
+                    <h3 style="margin:0;">Rs <span id="cart-total">0</span></h3>
                 </div>
                 <div id="discount-note" class="discount-applied" style="display: none;"></div>
             </div>
-
-            <div class="btn-container">
-                <button class="btn-clear" onclick="clearCart()">Clear Cart</button>
-                <button class="btn-checkout" onclick="checkout()">Proceed to Checkout</button>
+            
+            <div style="margin-top: 40px;" id="address-section">
+                <div class="section-title">Delivery Address</div>
+                <span class="cod-badge">✓ Cash on Delivery (COD)</span>
+                
+                <div class="form-group"><label>Full Name</label><input type="text" id="name" required></div>
+                <div class="form-group"><label>Phone Number</label><input type="text" id="phone" required></div>
+                <div class="form-group"><label>Delivery Address</label><input type="text" id="address" required></div>
+                
+                <button class="order-submit" id="order-btn" onclick="placeOrder()">Confirm & Place Order</button>
             </div>
         </div>
     </div>
     
     <script>
+        // Connect directly to your active deployment endpoint
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzN6p2L19xIBqkn6Qc4xgeFZ7NfvQ6-E-2DacdSrdCK8OnH8MSZ9tLI12udJZMRmIqF/exec'; 
+
         let cart = JSON.parse(localStorage.getItem('shop_cart')) || [];
-        const itemsContainer = document.getElementById('cart-items-list');
-        const totalContainer = document.getElementById('cart-total-amount');
-        const subtotalRow = document.getElementById('subtotal-row');
-        const subtotalContainer = document.getElementById('cart-subtotal');
-        const discountNote = document.getElementById('discount-note');
+        let finalCalculatedTotal = 0;
+        renderCart();
 
         function renderCart() {
-            itemsContainer.innerHTML = '';
+            const cartList = document.getElementById('cart-items');
+            const subtotalRow = document.getElementById('subtotal-row');
+            const subtotalSpan = document.getElementById('cart-subtotal');
+            const totalSpan = document.getElementById('cart-total');
+            const discountNote = document.getElementById('discount-note');
+            const addressSection = document.getElementById('address-section');
             
-            if (cart.length === 0) {
-                itemsContainer.innerHTML = '<div class="empty-message">Your cart is currently empty.</div>';
-                totalContainer.textContent = 'Rs 0';
-                subtotalRow.style.display = 'none';
-                discountNote.style.display = 'none';
-                return;
-            }
-
             let subtotal = 0;
             
-            cart.forEach((item) => {
+            if (cart.length === 0) {
+                cartList.innerHTML = '<p style="color: var(--text-muted); font-size: 14px; margin: 0; text-align:center; padding: 20px 0;">Your cart is completely empty.</p>';
+                totalSpan.textContent = "0";
+                subtotalRow.style.display = 'none';
+                discountNote.style.display = 'none';
+                addressSection.style.display = 'none';
+                return;
+            }
+            
+            addressSection.style.display = 'block';
+            cartList.innerHTML = '';
+            
+            cart.forEach((item, index) => {
                 subtotal += item.price;
-                
-                const itemRow = document.createElement('div');
-                itemRow.className = 'cart-item';
-                itemRow.innerHTML = `
-                    <div class="item-details">
-                        <h4>${item.name}</h4>
-                        <p>Standard Size</p>
-                    </div>
-                    <div class="item-price">Rs ${item.price.toLocaleString()}</div>
+                let li = document.createElement('li');
+                li.className = 'cart-item';
+                li.innerHTML = `
+                    <span>${item.name} (Rs ${item.price})</span>
+                    <button class="remove-btn" onclick="removeItem(${index})">×</button>
                 `;
-                itemsContainer.appendChild(itemRow);
+                cartList.appendChild(li);
             });
 
-            // If order values are greater than or equal to Rs 2000, trigger discount logic
-            if (subtotal >= 5000) {
+            // Calculate Rs 200 discount for orders >= Rs 2000
+            if (subtotal >= 2000) {
                 const discountValue = 200;
-                const finalTotal = subtotal - discountValue;
+                finalCalculatedTotal = subtotal - discountValue;
                 
-                subtotalContainer.textContent = `Rs ${subtotal.toLocaleString()}`;
-                totalContainer.textContent = `Rs ${finalTotal.toLocaleString()}`;
+                subtotalSpan.textContent = subtotal.toLocaleString();
+                totalSpan.textContent = finalCalculatedTotal.toLocaleString();
                 discountNote.textContent = `🎉 Rs ${discountValue} Threshold Discount Applied!`;
                 
                 subtotalRow.style.display = 'flex';
                 discountNote.style.display = 'block';
             } else {
-                totalContainer.textContent = `Rs ${subtotal.toLocaleString()}`;
+                finalCalculatedTotal = subtotal;
+                totalSpan.textContent = subtotal.toLocaleString();
                 subtotalRow.style.display = 'none';
                 discountNote.style.display = 'none';
             }
         }
 
-        function clearCart() {
-            if(confirm("Are you sure you want to empty your cart?")) {
-                cart = [];
-                localStorage.setItem('shop_cart', JSON.stringify(cart));
-                renderCart();
-            }
-        }
-
-        function checkout() {
-            if (cart.length === 0) {
-                alert("Your cart is empty!");
-                return;
-            }
-            alert("Order placed successfully! Thank you for shopping with ShopSlipper.");
-            cart = [];
+        function removeItem(index) {
+            cart.splice(index, 1);
             localStorage.setItem('shop_cart', JSON.stringify(cart));
-            window.location.href = 'index.html';
+            renderCart();
         }
 
-        renderCart();
+        function placeOrder() {
+            if (cart.length === 0) { alert("Your cart is empty!"); return; }
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const address = document.getElementById('address').value.trim();
+            if (!name || !phone || !address) { alert("Please complete all delivery fields."); return; }
+
+            const orderData = {
+                name: name, 
+                phone: phone, 
+                address: address,
+                orderDetails: cart.map(i => i.name).join(", "), 
+                totalAmount: finalCalculatedTotal
+            };
+
+            const btn = document.getElementById('order-btn');
+            btn.textContent = "Processing Order..."; btn.disabled = true;
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST', mode: 'no-cors',
+                body: JSON.stringify(orderData), headers: { 'Content-Type': 'application/json' }
+            }).then(() => {
+                alert("🎉 Order recorded! Redirecting you back to the store.");
+                // Wipe shopping cart out of browser storage memory upon completion
+                localStorage.removeItem('shop_cart');
+                window.location.href = "index.html";
+            }).catch(err => {
+                alert("Something went wrong. Please try again.");
+                btn.textContent = "Confirm & Place Order"; btn.disabled = false;
+            });
+        }
     </script>
 </body>
 </html>
