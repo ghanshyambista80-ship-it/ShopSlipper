@@ -498,7 +498,7 @@ async function loadProducts(){
 }
 
 /* =========================================================
-   RENDER: filters + product grid
+   RENDER: filters + product grid #####################################################################################################
    ========================================================= */
 function renderFilters(){
   const cats = ["All", ...new Set(PRODUCTS.map(p=>p.category))];
@@ -553,7 +553,7 @@ function renderGrid(){
 }
 
 /* =========================================================
-   CART LOGIC
+   CART LOGIC------------------------------------------------------------------------------------------------------------------
    ========================================================= */
 function addToCart(id){
   const product = PRODUCTS.find(p=>p.id===id);
@@ -584,7 +584,7 @@ function showToast(msg){
 }
 
 /* =========================================================
-   DRAWER RENDER (cart view / checkout view / success view)
+   DRAWER RENDER (cart view / checkout view / success view)----------------------------------------------------------------------------
    ========================================================= */
 function openDrawer(startView){
   view = startView || 'cart';
@@ -622,7 +622,7 @@ function renderDrawer(){
     title.textContent = "Checkout";
     body.innerHTML = `
       <button class="back-link" id="backToCart">← Back to cart</button>
-      <div class="form-group"><label>Full Name</label><input id="cName" placeholder="e.g. Sujan Shrestha" /></div>
+      <div class="form-group"><label>Full Name</label><input id="cName" placeholder="e.g. Your Name" /></div>
       <div class="form-group"><label>Phone Number</label><input id="cPhone" placeholder="98XXXXXXXX" /></div>
       <div class="form-group"><label>Delivery Address</label><textarea id="cAddress" rows="3" placeholder="Area, street, landmark, city"></textarea></div>
       <div class="form-group"><label>Order Note (optional)</label><textarea id="cNote" rows="2" placeholder="Preferred delivery time, etc."></textarea></div>
@@ -673,7 +673,7 @@ function renderDrawer(){
 }
 
 /* =========================================================
-   SUBMIT ORDER -> Google Sheet (via Apps Script Web App)
+   SUBMIT ORDER -> Google Sheet (via Apps Script Web App)----------------------------------------------------------------
    ========================================================= */
 async function submitOrder(){
   const name = document.getElementById('cName').value.trim();
