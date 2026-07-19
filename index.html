@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShopSlipper — Premium Slippers</title>
+    <title>ShopSlipper — Premium Slippers Store</title>
     <style>
         :root {
             --bg-color: #f8f9fa;
@@ -15,60 +15,29 @@
             --radius: 12px;
             --shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
         }
-
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
-            background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0;
-        }
-
-        nav {
-            background-color: var(--surface-color); border-bottom: 1px solid var(--border-color);
-            padding: 15px 30px; display: flex; justify-content: space-between; align-items: center;
-            position: sticky; top: 0; z-index: 100;
-        }
-
-        nav h1 { margin: 0; font-size: 22px; text-transform: uppercase; font-weight: 800; letter-spacing: -0.5px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; }
+        nav { background-color: var(--surface-color); border-bottom: 1px solid var(--border-color); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        nav h1 { margin: 0; font-size: 22px; text-transform: uppercase; font-weight: 800; }
         nav a { color: var(--text-main); text-decoration: none; font-weight: 600; font-size: 14px; display: flex; align-items: center; }
-
-        .cart-count {
-            background: #ef4444; color: white; border-radius: 50%; padding: 2px 7px; font-size: 11px; margin-left: 6px; font-weight: 700;
-        }
-
+        .cart-count { background: #ef4444; color: white; border-radius: 50%; padding: 2px 7px; font-size: 11px; margin-left: 6px; font-weight: 700; }
         .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
         .section-title { font-size: 24px; font-weight: 700; margin-bottom: 25px; }
-
-        .product-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px;
-        }
-
-        .product-card {
-            background: var(--surface-color); border: 1px solid var(--border-color); border-radius: var(--radius);
-            padding: 20px; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between;
-        }
-
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
+        .product-card { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between; }
         .product-card h3 { margin: 0 0 8px 0; font-size: 18px; font-weight: 700; }
         .product-card p { margin: 0 0 16px 0; font-size: 14px; color: var(--text-muted); line-height: 1.4; }
         .product-price { font-weight: 800; font-size: 18px; margin-bottom: 16px; }
-
-        .btn-add {
-            background: var(--accent-color); color: white; padding: 12px; border: none;
-            border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; width: 100%; transition: background 0.2s;
-        }
-        .btn-add:hover { background: #333; }
+        .btn-add { background: var(--accent-color); color: white; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; width: 100%; }
     </style>
 </head>
 <body>
-
     <nav>
         <h1>ShopSlipper</h1>
         <a href="cart.html">View Cart <span id="cart-counter" class="cart-count">0</span></a>
     </nav>
-    
     <div class="container">
         <div class="section-title">Our Slippers Collection</div>
-        
         <div class="product-grid">
-            <!-- Product 1 -->
             <div class="product-card">
                 <div>
                     <h3>Classic Comfy Slippers</h3>
@@ -79,8 +48,6 @@
                     <button class="btn-add" onclick="addToCart('Classic Comfy Slippers', 1200)">Add to Cart</button>
                 </div>
             </div>
-
-            <!-- Product 2 -->
             <div class="product-card">
                 <div>
                     <h3>Premium Winter Slides</h3>
@@ -91,32 +58,17 @@
                     <button class="btn-add" onclick="addToCart('Premium Winter Slides', 1800)">Add to Cart</button>
                 </div>
             </div>
-
-            <!-- Product 3 -->
-            <div class="product-card">
-                <div>
-                    <h3>Luxury Leather Slippers</h3>
-                    <p>Sleek design manufactured using top-grain breathable leather.</p>
-                </div>
-                <div>
-                    <div class="product-price">Rs 2,500</div>
-                    <button class="btn-add" onclick="addToCart('Luxury Leather Slippers', 2500)">Add to Cart</button>
-                </div>
-            </div>
         </div>
     </div>
-    
     <script>
         let cart = JSON.parse(localStorage.getItem('shop_cart')) || [];
         updateCounter();
-
         function addToCart(name, price) {
             cart.push({ name: name, price: price });
             localStorage.setItem('shop_cart', JSON.stringify(cart));
             updateCounter();
             alert(`🎉 Added "${name}" to your cart!`);
         }
-
         function updateCounter() {
             document.getElementById('cart-counter').textContent = cart.length;
         }
