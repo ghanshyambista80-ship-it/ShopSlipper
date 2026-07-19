@@ -37,38 +37,45 @@
     </nav>
     <div class="container">
         <div class="section-title">Our Slippers Collection</div>
-        <div class="product-grid">
-            <div class="product-card">
-                <div>
-                    <h3>Classic Comfy Slippers</h3>
-                    <p>Ultra-soft memory foam base perfect for everyday indoor relaxation.</p>
-                </div>
-                <div>
-                    <div class="product-price">Rs 1,200</div>
-                    <button class="btn-add" onclick="addToCart('Classic Comfy Slippers', 1200)">Add to Cart</button>
-                </div>
-            </div>
-            <div class="product-card">
-                <div>
-                    <h3>Premium Winter Slides</h3>
-                    <p>Fleece-lined interior engineered to keep your feet perfectly warm.</p>
-                </div>
-                <div>
-                    <div class="product-price">Rs 1,800</div>
-                    <button class="btn-add" onclick="addToCart('Premium Winter Slides', 1800)">Add to Cart</button>
-                </div>
-            </div>
-        </div>
+        <div class="product-grid" id="product-container"></div>
     </div>
+
+    <!-- Imports your external products file -->
+    <script src="products.js"></script>
+
     <script>
         let cart = JSON.parse(localStorage.getItem('shop_cart')) || [];
         updateCounter();
+
+        // Dynamically build out product cards from products.js
+        const container = document.getElementById('product-container');
+        if (typeof products !== 'undefined' && products.length > 0) {
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div>
+                        <h3>${product.name}</h3>
+                        <p>${product.description || ''}</p>
+                    </div>
+                    <div>
+                        <div class="product-price">Rs ${product.price.toLocaleString()}</div>
+                        <button class="btn-add" onclick="addToCart('${product.name}', ${product.price})">Add to Cart</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        } else {
+            container.innerHTML = `<p style="color:var(--text-muted);">No products found. Please check your products.js file layout.</p>`;
+        }
+
         function addToCart(name, price) {
             cart.push({ name: name, price: price });
             localStorage.setItem('shop_cart', JSON.stringify(cart));
             updateCounter();
             alert(`🎉 Added "${name}" to your cart!`);
         }
+
         function updateCounter() {
             document.getElementById('cart-counter').textContent = cart.length;
         }
