@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShopSlipper — Your Cart</title>
+    <title>ShopSlipper — Premium Slippers</title>
     <style>
         :root {
             --bg-color: #f8f9fa;
@@ -28,222 +28,98 @@
         }
 
         nav h1 { margin: 0; font-size: 22px; text-transform: uppercase; font-weight: 800; letter-spacing: -0.5px; }
-        nav a { color: var(--text-main); text-decoration: none; font-weight: 600; font-size: 14px; }
+        nav a { color: var(--text-main); text-decoration: none; font-weight: 600; font-size: 14px; position: relative; }
 
-        .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+        .cart-count {
+            background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 11px; margin-left: 5px;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
         .section-title { font-size: 24px; font-weight: 700; margin-bottom: 25px; }
 
-        .cart-card { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); margin-bottom: 24px; }
-        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border-color); }
-        .cart-item:last-child { border-bottom: none; }
-
-        .item-details h4 { margin: 0 0 4px 0; font-size: 16px; font-weight: 600; }
-        .item-details p { margin: 0; font-size: 13px; color: var(--text-muted); }
-        .item-price { font-weight: 700; font-size: 16px; }
-
-        .form-title { font-size: 18px; font-weight: 700; margin: 24px 0 16px 0; padding-top: 16px; border-top: 1px solid var(--border-color); }
-        .form-group { margin-bottom: 16px; }
-        .form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(--text-main); }
-        .form-group input, .form-group textarea { 
-            width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; 
-            font-size: 14px; font-family: inherit; box-sizing: border-box; background: #fafafa;
+        .product-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px;
         }
-        .form-group textarea { resize: vertical; height: 80px; }
-        .form-group input:focus, .form-group textarea:focus { border-color: var(--accent-color); outline: none; background: #ffffff; }
 
-        .cart-summary { margin-top: 24px; padding-top: 24px; border-top: 2px solid var(--border-color); display: flex; flex-direction: column; gap: 8px; }
-        .summary-row { display: flex; justify-content: space-between; align-items: center; }
-        
-        .total-label { font-size: 18px; font-weight: 600; }
-        .total-price { font-size: 22px; font-weight: 800; }
-        .discount-applied { font-size: 14px; color: #10b981; font-weight: 600; text-align: right; }
-
-        .btn-container { margin-top: 24px; display: flex; gap: 12px; }
-        button { padding: 14px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 15px; width: 100%; }
-        .btn-checkout { background: var(--accent-color); color: white; }
-        .btn-clear { background: transparent; color: #ef4444; border: 1px solid #ef4444; }
-        
-        .empty-message { text-align: center; padding: 40px 0; color: var(--text-muted); font-size: 16px; }
-        
-        .cod-badge {
-            background: #f0fdf4; color: #166534; padding: 6px 12px;
-            border-radius: 6px; font-size: 12px; font-weight: 500;
-            margin-bottom: 16px; display: inline-block; border: 1px solid #bbf7d0;
+        .product-card {
+            background: var(--surface-color); border: 1px solid var(--border-color); border-radius: var(--radius);
+            padding: 20px; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between;
         }
+
+        .product-card h3 { margin: 0 0 8px 0; font-size: 18px; font-weight: 700; }
+        .product-card p { margin: 0 0 16px 0; font-size: 14px; color: var(--text-muted); }
+        .product-price { font-weight: 800; font-size: 18px; margin-bottom: 16px; }
+
+        .btn-add {
+            background: var(--accent-color); color: white; padding: 12px; border: none;
+            border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; width: 100%; transition: background 0.2s;
+        }
+        .btn-add:hover { background: #333; }
     </style>
 </head>
 <body>
 
     <nav>
         <h1>ShopSlipper</h1>
-        <a href="index.html">← Back to Shop</a>
+        <a href="cart.html">View Cart <span id="cart-counter" class="cart-count">0</span></a>
     </nav>
     
     <div class="container">
-        <div class="section-title">Shopping Cart</div>
+        <div class="section-title">Our Slippers Collection</div>
         
-        <div class="cart-card">
-            <div id="cart-items-list"></div>
-            
-            <div id="checkout-form-section" style="display: none;">
-                <div class="form-title">Delivery Details</div>
-                <span class="cod-badge">✓ Cash on Delivery (COD)</span>
-                
-                <div class="form-group">
-                    <label for="cust-name">Full Name *</label>
-                    <input type="text" id="cust-name" placeholder="Enter your full name" required>
+        <div class="product-grid">
+            <!-- Product 1 -->
+            <div class="product-card">
+                <div>
+                    <h3>Classic Comfy Slippers</h3>
+                    <p>Ultra-soft memory foam base perfect for everyday indoor relaxation.</p>
                 </div>
-                
-                <div class="form-group">
-                    <label for="cust-phone">Phone Number *</label>
-                    <input type="tel" id="cust-phone" placeholder="Enter your mobile number" required>
+                <div>
+                    <div class="product-price">Rs 1,200</div>
+                    <button class="btn-add" onclick="addToCart('Classic Comfy Slippers', 1200)">Add to Cart</button>
                 </div>
-                
-                <div class="form-group">
-                    <label for="cust-address">Delivery Address *</label>
-                    <textarea id="cust-address" placeholder="House number, Street name, City, Area landmarks" required></textarea>
-                </div>
-            </div>
-            
-            <div class="cart-summary">
-                <div class="summary-row" id="subtotal-row" style="display: none; color: var(--text-muted);">
-                    <span>Subtotal:</span>
-                    <span id="cart-subtotal">Rs 0</span>
-                </div>
-                <div class="summary-row">
-                    <div class="total-label">Total Amount:</div>
-                    <div class="total-price" id="cart-total-amount">Rs 0</div>
-                </div>
-                <div id="discount-note" class="discount-applied" style="display: none;"></div>
             </div>
 
-            <div class="btn-container">
-                <button class="btn-clear" onclick="clearCart()">Clear Cart</button>
-                <button class="btn-checkout" onclick="checkout()">Proceed to Checkout</button>
+            <!-- Product 2 -->
+            <div class="product-card">
+                <div>
+                    <h3>Premium Winter Slides</h3>
+                    <p>Fleece lining interior engineered to keep your feet perfectly warm.</p>
+                </div>
+                <div>
+                    <div class="product-price">Rs 1,800</div>
+                    <button class="btn-add" onclick="addToCart('Premium Winter Slides', 1800)">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card">
+                <div>
+                    <h3>Luxury Leather House Slippers</h3>
+                    <p>Sleek design manufactured using top-grain breathable leather.</p>
+                </div>
+                <div>
+                    <div class="product-price">Rs 2,500</div>
+                    <button class="btn-add" onclick="addToCart('Luxury Leather House Slippers', 2500)">Add to Cart</button>
+                </div>
             </div>
         </div>
     </div>
     
     <script>
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw2K9CGHic5VtAsNmK7di26GaxG4-MtxMtkoJtYdoVvjefOf21umD8axhymLmw69g0m/exec';
-
         let cart = JSON.parse(localStorage.getItem('shop_cart')) || [];
-        const itemsContainer = document.getElementById('cart-items-list');
-        const totalContainer = document.getElementById('cart-total-amount');
-        const subtotalRow = document.getElementById('subtotal-row');
-        const subtotalContainer = document.getElementById('cart-subtotal');
-        const discountNote = document.getElementById('discount-note');
-        const formSection = document.getElementById('checkout-form-section');
+        updateCounter();
 
-        let finalCalculatedTotal = 0;
-
-        function renderCart() {
-            itemsContainer.innerHTML = '';
-            
-            if (cart.length === 0) {
-                itemsContainer.innerHTML = '<div class="empty-message">Your cart is currently empty.</div>';
-                totalContainer.textContent = 'Rs 0';
-                subtotalRow.style.display = 'none';
-                discountNote.style.display = 'none';
-                formSection.style.display = 'none';
-                return;
-            }
-
-            formSection.style.display = 'block';
-            let subtotal = 0;
-            
-            cart.forEach((item) => {
-                subtotal += item.price;
-                
-                const itemRow = document.createElement('div');
-                itemRow.className = 'cart-item';
-                itemRow.innerHTML = `
-                    <div class="item-details">
-                        <h4>${item.name}</h4>
-                        <p>Standard Size</p>
-                    </div>
-                    <div class="item-price">Rs ${item.price.toLocaleString()}</div>
-                `;
-                itemsContainer.appendChild(itemRow);
-            });
-
-            if (subtotal >= 5000) {
-                const discountValue = 200;
-                finalCalculatedTotal = subtotal - discountValue;
-                
-                subtotalContainer.textContent = `Rs ${subtotal.toLocaleString()}`;
-                totalContainer.textContent = `Rs ${finalCalculatedTotal.toLocaleString()}`;
-                discountNote.innerHTML = `✨ Rs ${discountValue} Discount Applied!`;
-                
-                subtotalRow.style.display = 'flex';
-                discountNote.style.display = 'block';
-            } else {
-                finalCalculatedTotal = subtotal;
-                totalContainer.textContent = `Rs ${subtotal.toLocaleString()}`;
-                subtotalRow.style.display = 'none';
-                discountNote.style.display = 'none';
-            }
+        function addToCart(name, price) {
+            cart.push({ name: name, price: price });
+            localStorage.setItem('shop_cart', JSON.stringify(cart));
+            updateCounter();
+            alert(`🎉 Added "${name}" to your cart!`);
         }
 
-        function generateOrderNumber() {
-            const randomDigits = Math.floor(100000 + Math.random() * 900000); 
-            return `SS${randomDigits}NP`;
+        function updateCounter() {
+            document.getElementById('cart-counter').textContent = cart.length;
         }
-
-        function clearCart() {
-            if(confirm("Are you sure you want to empty your cart?")) {
-                cart = [];
-                localStorage.setItem('shop_cart', JSON.stringify(cart));
-                renderCart();
-            }
-        }
-
-        function checkout() {
-            if (cart.length === 0) {
-                alert("Your cart is empty!");
-                return;
-            }
-
-            const name = document.getElementById('cust-name').value.trim();
-            const phone = document.getElementById('cust-phone').value.trim();
-            const address = document.getElementById('cust-address').value.trim();
-
-            if(!name || !phone || !address) {
-                alert("Missing Fields! Full Name, Phone Number, and Delivery Address are mandatory.");
-                return;
-            }
-
-            const generatedOrderId = generateOrderNumber();
-
-            const orderData = {
-                orderId: generatedOrderId,
-                name: name, 
-                phone: phone, 
-                address: address,
-                orderDetails: cart.map(i => i.name).join(", "), 
-                totalAmount: finalCalculatedTotal
-            };
-
-            const btn = document.querySelector('.btn-checkout');
-            btn.textContent = "Processing Order..."; 
-            btn.disabled = true;
-
-            fetch(GOOGLE_SCRIPT_URL, {
-                method: 'POST', mode: 'no-cors',
-                body: JSON.stringify(orderData), headers: { 'Content-Type': 'application/json' }
-            }).then(() => {
-                alert(`🎉 Order Placed Successfully!\n\nYour Order Number is: ${generatedOrderId}\n\nRedirecting you back to the shop...`);
-                cart = [];
-                localStorage.setItem('shop_cart', JSON.stringify(cart));
-                window.location.href = 'index.html';
-            }).catch(err => {
-                alert("Something went wrong. Please try again.");
-                btn.textContent = "Proceed to Checkout"; 
-                btn.disabled = false;
-            });
-        }
-
-        renderCart();
     </script>
 </body>
 </html>
