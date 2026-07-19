@@ -626,6 +626,7 @@ function renderDrawer(){
       <div class="form-group"><label>Phone Number</label><input id="cPhone" placeholder="98XXXXXXXX" /></div>
       <div class="form-group"><label>Delivery Address</label><textarea id="cAddress" rows="3" placeholder="Area, street, landmark, city"></textarea></div>
       <div class="form-group"><label>Order Note (optional)</label><textarea id="cNote" rows="2" placeholder="Preferred delivery time, etc."></textarea></div>
+      <div class="form-group"><label>Phone Number</label><input id="cPhone" placeholder="shopslipper@gmail.com" /></div>
     `;
     foot.innerHTML = `
       <div class="sum-row"><span>Subtotal</span><span class="mono">${CONFIG.currency} ${cartSubtotal()}</span></div>
@@ -679,6 +680,7 @@ async function submitOrder(){
   const name = document.getElementById('cName').value.trim();
   const phone = document.getElementById('cPhone').value.trim();
   const address = document.getElementById('cAddress').value.trim();
+  const note = document.getElementById('cMail').value.trim();
   const note = document.getElementById('cNote').value.trim();
 
   if (!name || !phone || !address){
