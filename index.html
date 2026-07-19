@@ -24,7 +24,7 @@
         }
 
         /* Modern Top Navigation Bar */
-        navbar {
+        nav {
             background-color: var(--surface-color);
             border-bottom: 1px solid var(--border-color);
             padding: 15px 30px;
@@ -37,7 +37,7 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.02);
         }
 
-        navbar h1 { margin: 0; font-size: 22px; text-transform: uppercase; font-weight: 800; letter-spacing: -0.5px; }
+        nav h1 { margin: 0; font-size: 22px; text-transform: uppercase; font-weight: 800; letter-spacing: -0.5px; }
 
         /* Small Top Cart Box */
         .top-cart-box {
@@ -115,12 +115,12 @@
 <body>
 
     <!-- Top Navbar with Cart Status Box -->
-    <navbar>
+    <nav>
         <h1>ShopSlipper</h1>
         <a href="cart.html" class="top-cart-box" id="cart-box">
             🛒 Cart <span class="cart-badge" id="cart-count">0</span>
         </a>
-    </navbar>
+    </nav>
     
     <div class="container">
         <div class="section-title">The Rack</div>
@@ -129,7 +129,8 @@
         <div class="product-grid" id="product-container">
             <div class="product">
                 <div class="product-image-box">
-    <img src="c:\Users\ghans\Downloads\images.jpg" alt="Product Image" style="width: 100%; height: 100%; object-fit: cover;"></div>
+                    <img src="images.jpg" alt="Denim Trucker Jacket" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
                 <div class="product-info">
                     <h3>Denim Trucker Jacket</h3>
                     <div class="product-meta">Size: M</div>
@@ -236,7 +237,7 @@
                     <div class="product-price">Rs 550</div>
                     <button onclick="addToCart('Oversized Graphic Tee', 550)">Add to Cart</button>
                 </div>
-            </div>  
+            </div>     
         </div>
     </div>
     
