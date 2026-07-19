@@ -138,7 +138,6 @@
     </div>
     
     <script>
-        // Connect directly to your active deployment endpoint
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzN6p2L19xIBqkn6Qc4xgeFZ7NfvQ6-E-2DacdSrdCK8OnH8MSZ9tLI12udJZMRmIqF/exec'; 
 
         let cart = JSON.parse(localStorage.getItem('shop_cart')) || [];
@@ -178,7 +177,6 @@
                 cartList.appendChild(li);
             });
 
-            // Calculate Rs 200 discount for orders >= Rs 2000
             if (subtotal >= 2000) {
                 const discountValue = 200;
                 finalCalculatedTotal = subtotal - discountValue;
@@ -226,7 +224,6 @@
                 body: JSON.stringify(orderData), headers: { 'Content-Type': 'application/json' }
             }).then(() => {
                 alert("🎉 Order recorded! Redirecting you back to the store.");
-                // Wipe shopping cart out of browser storage memory upon completion
                 localStorage.removeItem('shop_cart');
                 window.location.href = "index.html";
             }).catch(err => {
