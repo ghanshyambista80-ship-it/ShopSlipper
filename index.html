@@ -43,9 +43,14 @@
   .logo .mark{
     width:52px; height:52px; border-radius:50%; background:var(--denim);
     display:flex; align-items:center; justify-content:center;
-    color:#fff; font-family:'Anton',sans-serif; font-size:16px; overflow:hidden;
+    color:#fff; font-family:'Anton',sans-serif; font-size:22px; overflow:hidden; flex-shrink:0;
+    padding:0; /* increase this (e.g. 4px, 6px) to shrink the image inward, like a border/cushion */
   }
-  .logo .mark img{ width:100%; height:100%; object-fit:cover; }
+  .logo .mark img{
+    width:100%; height:100%;
+    object-fit:cover; /* 'cover' = fills the circle, crops overflow. 'contain' = shows whole image, may leave gaps */
+    object-position:center; /* which part of the image shows when cropped: 'top', 'bottom', 'left', 'right', or '50% 30%' etc. */
+  }
   .logo .name{ font-family:'Anton',sans-serif; font-size:20px; letter-spacing:0.5px; }
   .logo .tag{ font-size:10px; color:#6b7280; margin-top:-2px; letter-spacing:1.5px; text-transform:uppercase; }
 
@@ -269,6 +274,21 @@
   }
   .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
 
+  .fly-item{
+    position:fixed; z-index:100; border-radius:50%; pointer-events:none;
+    background:var(--paper); border:2px solid var(--ink); overflow:hidden;
+    display:flex; align-items:center; justify-content:center; color:var(--denim);
+    transition: transform 0.65s cubic-bezier(.35,0,.55,1.2), opacity 0.65s ease, width 0.65s ease, height 0.65s ease;
+  }
+  .fly-item img{ width:100%; height:100%; object-fit:cover; }
+  .fly-item svg{ width:60%; height:60%; }
+  .cart-btn.bump{ animation: cartBump 0.35s ease; }
+  @keyframes cartBump{
+    0%{ transform:scale(1); }
+    35%{ transform:scale(1.18); }
+    100%{ transform:scale(1); }
+  }
+
   .order-success{ text-align:center; padding:40px 12px; }
   .order-success .ok-mark{
     width:64px; height:64px; border-radius:50%; background:var(--denim); color:#fff;
@@ -379,7 +399,7 @@
 
 <script>
 /* =========================================================
-   CONFIG — replace with your own values ###############################################Logo##############################################
+   CONFIG — replace with your own values
    ========================================================= */
 const CONFIG = {
   storeName: "ShopSlipper",
@@ -388,7 +408,7 @@ const CONFIG = {
   pageSize: 60,
   // Paste a direct image link here to use your own logo instead of the "S" circle.
   // Leave blank to keep the default letter mark.
-  logoUrl: "https://raw.githubusercontent.com/ghanshyambista80-ship-it/ShopSlipper/main/WhatsApp%20Image%202026-07-20%20at%202.17.32%20PM.jpeg",
+  logoUrl: "https://raw.githubusercontent.com/ghanshyambista80-ship-it/ShopSlipper/main/WhatsApp%20Image%202026-07-19%20at%2012.21.17%20PM.jpeg",
   sheetWebAppUrl: "https://script.google.com/macros/s/AKfycbwmsPnmPziug2mdSM9Kfl6CAlOge4FOmYYGMYUQn7wyPDOE6tOCa5POtmD56Wz_DBrx0A/exec",
   productsCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkMEBcxvLNqFY3G2Ivm9W6nUyHnP7l8mGQvLMM-f0NeMO6OI4tWvU64iZcoS-_wc9xpvpQE91loK5W/pub?output=csv"
 };
@@ -550,7 +570,7 @@ function renderGrid(){
       ? `<div class="load-more-wrap"><button class="btn-ghost" id="loadMoreBtn">Load More (${filtered.length - visibleCount} left)</button></div>`
       : '');
   document.querySelectorAll('.add-btn').forEach(btn=>{
-    btn.addEventListener('click', ()=> addToCart(btn.dataset.id));
+    btn.addEventListener('click', ()=>{ flyToCart(btn); addToCart(btn.dataset.id); });
   });
   const loadMoreBtn = document.getElementById('loadMoreBtn');
   if (loadMoreBtn) loadMoreBtn.addEventListener('click', ()=>{ visibleCount += CONFIG.pageSize; renderGrid(); });
@@ -578,6 +598,44 @@ function changeQty(id, delta){
 function cartSubtotal(){ return cart.reduce((s,c)=> s + c.price*c.qty, 0); }
 function cartCount(){ return cart.reduce((s,c)=> s + c.qty, 0); }
 function updateCartCount(){ document.getElementById('cartCount').textContent = cartCount(); }
+
+function flyToCart(sourceEl){
+  const cartBtn = document.getElementById('openCart');
+  if (!sourceEl || !cartBtn) return;
+
+  const thumb = sourceEl.closest('.card, .cart-item')?.querySelector('.thumb, .ci-thumb');
+  if (!thumb) return;
+
+  const startRect = thumb.getBoundingClientRect();
+  const endRect = cartBtn.getBoundingClientRect();
+
+  const clone = document.createElement('div');
+  clone.className = 'fly-item';
+  clone.innerHTML = thumb.innerHTML;
+  clone.style.left = startRect.left + 'px';
+  clone.style.top = startRect.top + 'px';
+  clone.style.width = startRect.width + 'px';
+  clone.style.height = startRect.height + 'px';
+  document.body.appendChild(clone);
+
+  // Force layout so the browser registers the start position before animating
+  clone.getBoundingClientRect();
+
+  requestAnimationFrame(() => {
+    const endX = endRect.left + endRect.width / 2 - startRect.left - startRect.width / 2;
+    const endY = endRect.top + endRect.height / 2 - startRect.top - startRect.height / 2;
+    clone.style.transform = `translate(${endX}px, ${endY}px)`;
+    clone.style.width = '18px';
+    clone.style.height = '18px';
+    clone.style.opacity = '0.2';
+  });
+
+  setTimeout(() => {
+    clone.remove();
+    cartBtn.classList.add('bump');
+    setTimeout(() => cartBtn.classList.remove('bump'), 350);
+  }, 650);
+}
 
 function showToast(msg){
   const t = document.getElementById('toast');
