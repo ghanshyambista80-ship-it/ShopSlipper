@@ -132,6 +132,7 @@
     filter:blur(6px);
   }
   .hero-art svg{ width:100%; height:auto; max-width:280px; }
+  #heroVisual img{ width:100%; max-width:320px; max-height:340px; object-fit:cover; border-radius:12px; display:block; }
   .hero-art .float-tag{
     position:absolute; background:#fff; border:2px solid var(--ink); border-radius:10px;
     padding:8px 12px; font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:700;
@@ -471,14 +472,16 @@
     </div>
   </div>
   <div class="hero-art reveal" style="transition-delay:.12s;">
-    <div class="float-tag a">Rs 100 OFF</div>
-    <div class="float-tag b">COD ✓</div>
-    <svg viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M70 30 L60 55 L20 65 L35 210 L165 210 L180 65 L140 55 L130 30 Z" stroke="#14181f" stroke-width="4" fill="#ffffff"/>
-      <path d="M70 30 Q100 55 130 30" stroke="#14181f" stroke-width="4" fill="none"/>
-      <circle cx="60" cy="55" r="5" fill="#1f3a5f"/>
-      <circle cx="140" cy="55" r="5" fill="#1f3a5f"/>
-    </svg>
+    <div class="float-tag a" id="heroTagA">Rs 100 OFF</div>
+    <div class="float-tag b" id="heroTagB">COD ✓</div>
+    <div id="heroVisual">
+      <svg viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M70 30 L60 55 L20 65 L35 210 L165 210 L180 65 L140 55 L130 30 Z" stroke="#14181f" stroke-width="4" fill="#ffffff"/>
+        <path d="M70 30 Q100 55 130 30" stroke="#14181f" stroke-width="4" fill="none"/>
+        <circle cx="60" cy="55" r="5" fill="#1f3a5f"/>
+        <circle cx="140" cy="55" r="5" fill="#1f3a5f"/>
+      </svg>
+    </div>
   </div>
 </section>
 
@@ -546,6 +549,12 @@ const CONFIG = {
   // Paste a direct image link here to use your own logo instead of the "S" circle.
   // Leave blank to keep the default letter mark.
   logoUrl: "https://raw.githubusercontent.com/ghanshyambista80-ship-it/ShopSlipper/main/WhatsApp%20Image%202026-07-20%20at%202.17.32%20PM.jpeg",
+  // Paste a direct image link here to replace the jacket line-drawing in the hero box with your own photo.
+  // Leave blank to keep the default drawing.
+  heroImageUrl: "",
+  // Text on the two floating tags inside the hero box. Leave as-is or edit freely.
+  heroTagA: "Rs 100 OFF",
+  heroTagB: "COD ✓",
   sheetWebAppUrl: "https://script.google.com/macros/s/AKfycbwmsPnmPziug2mdSM9Kfl6CAlOge4FOmYYGMYUQn7wyPDOE6tOCa5POtmD56Wz_DBrx0A/exec",
   productsCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkMEBcxvLNqFY3G2Ivm9W6nUyHnP7l8mGQvLMM-f0NeMO6OI4tWvU64iZcoS-_wc9xpvpQE91loK5W/pub?output=csv"
 };
@@ -1106,6 +1115,13 @@ if (CONFIG.logoUrl && CONFIG.logoUrl.startsWith("http")){
     `<img src="${escapeAttr(CONFIG.logoUrl)}" alt="${escapeAttr(CONFIG.storeName)} logo">`;
 }
 document.querySelector('.logo .name').textContent = CONFIG.storeName;
+
+if (CONFIG.heroImageUrl && CONFIG.heroImageUrl.startsWith("http")){
+  document.getElementById('heroVisual').innerHTML =
+    `<img src="${escapeAttr(CONFIG.heroImageUrl)}" alt="${escapeAttr(CONFIG.storeName)} featured product">`;
+}
+if (CONFIG.heroTagA) document.getElementById('heroTagA').textContent = CONFIG.heroTagA;
+if (CONFIG.heroTagB) document.getElementById('heroTagB').textContent = CONFIG.heroTagB;
 
 let searchDebounce;
 document.getElementById('searchBox').addEventListener('input', (e)=>{
